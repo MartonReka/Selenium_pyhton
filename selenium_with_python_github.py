@@ -31,10 +31,38 @@ class TestSuit(unittest.TestCase):
 
         Proceed_to_checkout = self.driver.find_element_by_xpath("//a[@class='button btn btn-default standard-checkout button-medium']")
         Proceed_to_checkout.click()
+
+        self.regisztracio()
+       
+        #Cim megerosites
+        check = self.driver.find_element_by_xpath("//button[@class='button btn btn-default button-medium']//span[contains(text(),'Proceed to checkout')]")
+        check.click()
+        self.driver.implicitly_wait(20)
         
+        #kiszallitas feltetel elfogadasa
+        checkbox = self.driver.find_element_by_xpath("//div[@class='checker']//span//input")
+        checkbox.click()
+
+        check = self.driver.find_element_by_xpath("//button[@class='button btn btn-default standard-checkout button-medium']//span[contains(text(),'Proceed to checkout')]")
+        check.click()
+
+        #fizetesmod kivalasztasa
+        check_pay = self.driver.find_element_by_xpath("//a[@class='cheque']")
+        check_pay.click()
+
+        #megerosites
+        confirm = self.driver.find_element_by_xpath("//span[contains(text(),'I confirm my order')]")
+        confirm.click()
+
+        #assert
+        confirmation_box = self.driver.find_element_by_xpath("//p[@class='alert alert-success']")
+        print(confirmation_box.text)
+        self.assertEqual(confirmation_box.text,"Your order on My Store is complete.")
+
+    def regisztracio(self):
         #regisztracio
         email_address = self.driver.find_element_by_xpath("//input[@id='email_create']")
-        email_address.send_keys("proba7@gmail.com")
+        email_address.send_keys("proba8@gmail.com")
 
         create_account = self.driver.find_element_by_xpath("//button[@id='SubmitCreate']")
         create_account.click()
@@ -98,31 +126,6 @@ class TestSuit(unittest.TestCase):
         register_button = self.driver.find_element_by_xpath("//button[@class='btn btn-default button button-medium']")
         register_button.click()
         
-        #Cim megerosites
-        check = self.driver.find_element_by_xpath("//button[@class='button btn btn-default button-medium']//span[contains(text(),'Proceed to checkout')]")
-        check.click()
-        self.driver.implicitly_wait(20)
-        
-        #kiszallitas feltetel elfogadasa
-        checkbox = self.driver.find_element_by_xpath("//div[@class='checker']//span//input")
-        checkbox.click()
-
-        check = self.driver.find_element_by_xpath("//button[@class='button btn btn-default standard-checkout button-medium']//span[contains(text(),'Proceed to checkout')]")
-        check.click()
-
-        #fizetesmod kivalasztasa
-        check_pay = self.driver.find_element_by_xpath("//a[@class='cheque']")
-        check_pay.click()
-
-        #megerosites
-        confirm = self.driver.find_element_by_xpath("//span[contains(text(),'I confirm my order')]")
-        confirm.click()
-
-        #assert
-        confirmation_box = self.driver.find_element_by_xpath("//p[@class='alert alert-success']")
-        print(confirmation_box.text)
-        self.assertEqual(confirmation_box.text,"Your order on My Store is complete.")
-
         
     def tearDown(self):
         self.driver.quit()
